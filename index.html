@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Park</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="preloader">
+
+        <h1 class="follow-text">Welcome to Smart Parking</h1>
+    </div>
+
+    <!-- 🌐 Main Website -->
+    <div id="main-content" class="hidden">
+
+
+        <!-- ✅ NAVIGATION BAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="SmartPark Logo" width="100" height="50">
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="park.html">Home</a></li>
+                <li><a href="solution.html">Our Solution</a></li>
+                <li><a href="listyourparking.html">List Your Parking</a></li>
+                <li><a href="#">Free Demo</a></li>
+            </ul>
+        </nav>
+        <div class="intro">
+            <h1>🚗 Smart Parking</h1>
+            <p>Find • Book • Park Easily</p>
+        </div>
+
+        <style>
+            body {
+                margin: 0;
+                background: #0f172a;
+                color: white;
+                font-family: sans-serif;
+            }
+
+            .intro {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                animation: fadeIn 2s ease-in-out;
+            }
+
+            h1 {
+                font-size: 50px;
+                animation: slideDown 1.5s ease;
+            }
+
+            p {
+                font-size: 20px;
+                animation: fadeIn 3s ease;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
+        <!-- main CONTENT -->
+        <section class="about-section">
+            <div class="about-image">
+                <img src="https://cybersnowden.com/wp-content/uploads/2023/04/SMART-Parking-1024x742.png"
+                    alt="Smart Parking">
+            </div>
+            <div class="about-content">
+                <h3>Transforming a country in a developed nation</h3>
+                <h2>Smart Parking Platform</h2>
+                <p>
+                    Smart Parking is an intelligent system that helps drivers find and reserve available parking spots
+                    using
+                    IoT and real-time data.
+                    It reduces traffic congestion, saves time, and optimizes space utilization with automation, sensors,
+                    and
+                    mobile connectivity.
+                </p>
+                <button onclick="showHowItWorks()">How It Works</button>
+                <div id="videoModal" class="video-modal">
+                    <div class="video-content">
+                        <span class="close-btn" onclick="closeVideoPopup()">&times;</span>
+                        <iframe id="howItWorksVideo" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--pre book-->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Pre-book Your Space</h1>
+                <p>Reserve your <span>parking spot</span> in advance for a hassle-free experience. Secure, convenient,
+                    and
+                    stress-free. <br><strong>Book now!</strong></p>
+                <button class="btn" onclick="reserveSpot()">Reserve Now</button>
+            </div>
+
+            <div class="hero-img">
+                <img id="parkingImage"
+                    src="https://tse4.mm.bing.net/th/id/OIP.JzAe2Cyb5X_4vBxdleIf0wHaHq?pid=Api&P=0&h=180"
+                    alt="Parking App on Phone">
+            </div>
+        </section>
+
+        <!-- Let's Chat Button + Chat Box -->
+        <button class="chat-toggle-btn" onclick="toggleChat()">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/chat--v1.png" />
+            Let's Chat
+        </button>
+
+        <!-- Chat Widget -->
+        <div class="chat-wrapper" id="chatBox">
+            <div class="chat-header">
+                Smart Park
+                <span class="chat-close" onclick="toggleChat()">&times;</span>
+                <div style="font-size: 12px; font-weight: normal;">We’ll reply as soon as we can</div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="chat-form">
+                <input type="text" placeholder="Name" id="nameInput" />
+                <input type="email" placeholder="Email" id="emailInput" />
+                <input type="tel" placeholder="Phone" id="phoneInput" />
+                <button onclick="submitForm()">Submit</button>
+            </div>
+
+            <!-- Message Bar -->
+            <div class="chat-input-bar">
+                <input type="text" id="chatInput" placeholder="Type Here..." />
+                <div class="chat-icons">
+                    <button onclick="sendMessage('chat')">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/speech-bubble.png" title="Message" />
+                    </button>
+                    <button onclick="sendMessage('whatsapp')">
+                        <img src="https://img.icons8.com/ios-filled/50/25D366/whatsapp.png" title="WhatsApp" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--platform-->
+        <section class="hero-section">
+            <div class="content">
+                <h1>Smart Parking <span>Interoperable</span> Ecosystem</h1>
+                <p>
+                    Our platform enables seamless, contactless parking. Automate entry using license plate detection,
+                    reserve slots in real-time, and manage everything from a single dashboard. Get reports, control
+                    access,
+                    and monitor parking availability anytime, anywhere.
+                </p>
+            </div>
+            <div class="video-box">
+                <video autoplay muted loop playsinline>
+                    <source src="https://www.getmyparking.com/src/interoperable.mp4" type="video/mp4" />
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+        </section>
+
+
+        <!--why to choose smart park-->
+
+        <div>
+            <div class="overlay" id="overlay" onclick="closePopup()"></div>
+            <div class="popup" id="popup">
+                <h3 id="popup-title"></h3>
+                <p id="popup-description"></p>
+                <button class="popup-close" onclick="closePopup()">Close</button>
+            </div>
+
+            <section class="smartpark-section">
+                <div class="section-header">
+                    <h2>Why Choose SmartPark?</h2>
+                    <p>SmartPark integrates cutting-edge technology to create an intuitive, real-time, and user-focused
+                        parking system that transforms traditional parking into a seamless experience.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-box"
+                        onclick="openPopup('Real-Time Availability', 'SmartPark provides real-time data on available parking spots through sensors and cloud connectivity, helping users save time and reduce congestion.')">
+                        <i class="fa-solid fa-clock feature-icon"></i>
+                        <h3>Real-Time Availability</h3>
+                        <p>Get instant updates on parking spot availability.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Less Traffic Delays', 'By guiding vehicles to the nearest available spots, SmartPark significantly reduces traffic build-up and urban congestion.')">
+                        <i class="fa-solid fa-road feature-icon"></i>
+                        <h3>Less Traffic Delays</h3>
+                        <p>Efficient routing minimizes road congestion.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Higher Parking Efficiency', 'SmartPark maximizes the use of space with automated and sensor-based allocation, reducing idle time and improving turnover.')">
+                        <i class="fa-solid fa-car feature-icon"></i>
+                        <h3>Higher Parking Efficiency</h3>
+                        <p>Optimized parking for every square foot.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Enhanced User Experience', 'SmartPark’s mobile interface offers ease of booking, navigation, and seamless user interaction.')">
+                        <i class="fa-solid fa-user-check feature-icon"></i>
+                        <h3>Enhanced User Experience</h3>
+                        <p>User-friendly interfaces & simple workflows.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Automated Payment', 'Payments are automated via mobile apps or RFID cards, offering a cashless, convenient experience.')">
+                        <i class="fa-solid fa-credit-card feature-icon"></i>
+                        <h3>Automated Payment</h3>
+                        <p>Cashless transactions for faster exits.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Advanced Hardware Integration', 'SmartPark features a comprehensive integration of components like IR sensors, RFID, servo motors, LCD, GSM, and Arduino UNO. These elements work together for automatic entry, slot sensing, real-time notifications, and secure operations.')">
+                        <i class="fa-solid fa-microchip feature-icon"></i>
+                        <h3>Advanced Hardware Integration</h3>
+                        <p>IR sensors, RFID, LCD, Servo Motors, Arduino UNO.</p>
+                    </div>
+                    <div class="feature-box"
+                        onclick="openPopup('Admin Panel Access', 'SmartPark provides a dedicated admin panel for slot management, user registrations, and real-time monitoring to ensure smooth operations.')">
+                        <i class="fa-solid fa-user-shield feature-icon"></i>
+                        <h3>Admin Panel Access</h3>
+                        <p>Slot & user management with real-time control.</p>
+                    </div>
+
+                    <div class="feature-box"
+                        onclick="openPopup('Mobile & Web App', 'SmartPark supports both Android/iOS mobile apps and web platforms to give users the flexibility to book, track, and pay for parking from anywhere.')">
+                        <i class="fa-solid fa-mobile-screen-button feature-icon"></i>
+                        <h3>Mobile & Web App</h3>
+                        <p>Book and manage your slots anytime, anywhere.</p>
+                    </div>
+                </div>
+        </div>
+        </section>
+        <!--how samrt park help-->
+        <div class="container">
+            <h2 class="section-title">How SmartPark Helps?</h2>
+            <p class="section-description">
+                Smart Parking Platform provides a full-stack approach to solving parking related problems in today's
+                cities. Products based off its platform solve problems of parking lot operators & owners, urban
+                motorists, corporates, city planners and administrators.
+            </p>
+
+            <div class="cards-wrapper">
+                <div class="card">
+                    <img src="https://biztechnologysolutions.com/wp-content/uploads/2018/05/bigstock-graph.jpg"
+                        alt="Businesses">
+                    <div class="card-content">
+                        <h3 class="card-title">Businesses</h3>
+                        <ul>
+                            <li>Increase Revenue</li>
+                            <li>More Business Traffic</li>
+                            <li>Optimize Employee Traffic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.yeDGOk4Bn5kVCl4FnC9zBAHaEA&pid=Api&P=0&h=180"
+                        alt="Drivers">
+                    <div class="card-content">
+                        <h3 class="card-title">Drivers</h3>
+                        <ul>
+                            <li>Find Nearby Parking</li>
+                            <li>Real Time Guidance</li>
+                            <li>No More Circling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://www.transportadvancement.com/wp-content/uploads/2019/12/AI_traffic_management.jpg"
+                        alt="Smart Cities">
+                    <div class="card-content">
+                        <h3 class="card-title">Smart Cities</h3>
+                        <ul>
+                            <li>Improve Compliance</li>
+                            <li>Smart City Tracking</li>
+                            <li>Increase Turnover</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--where to used-->
+        <section class="section-container">
+            <div class="image-container">
+                <img src="https://cdn.shopify.com/s/files/1/0589/2102/5580/t/1/assets/resident_hv1l.jpg?v=1667483597961"
+                    alt="Residential Parking" />
+            </div>
+            <div class="text-container">
+                <h2>Residential Parking</h2>
+                <p>
+                    Set up contactless visitors parking registration, tenant & resident parking passes, manage
+                    assigned
+                    parking spots, set registration times and options, waiting list management and ban list. Know
+                    who is
+                    parked in your lot at all times and get detailed reports on registrations and citations issued
+                    at
+                    your location.
+                </p>
+            </div>
+        </section>
+
+        <!-- Commercial Parking -->
+        <section class="section-container alternate">
+            <div class="image-container">
+                <img src="https://cdn.shopify.com/s/files/1/0589/2102/5580/t/1/assets/campus_0AmB.jpg?v=1667484145201"
+                    alt="Commercial Parking" />
+            </div>
+            <div class="text-container">
+                <h2>Commercial Parking</h2>
+                <p>
+                    Enable real-time space tracking for malls, offices, and shopping complexes. Monitor occupancy
+                    rates,
+                    reduce congestion, offer mobile payment and pre-booking features to increase customer
+                    convenience
+                    and optimize lot usage.
+                </p>
+            </div>
+        </section>
+
+        <!-- Campus Parking -->
+        <section class="section-container">
+            <div class="image-container">
+                <img src="https://cdn.shopify.com/s/files/1/0589/2102/5580/t/1/assets/student_RC9L.jpg?v=166748553986"
+                    alt="Campus Parking" />
+            </div>
+            <div class="text-container">
+                <h2>Campus Parking</h2>
+                <p>
+                    Manage student, staff, and visitor parking with RFID access and real-time monitoring. Prevent
+                    unauthorized parking, support digital permits, and provide detailed usage analytics for
+                    universities
+                    and institutions.
+                </p>
+            </div>
+        </section>
+
+        <!-- ✅ demo CONTENT -->
+        <header class="hero-section">
+            <h1>Welcome to SmartPark</h1>
+            <p>Your intelligent parking solution—designed to save time and space.</p>
+            <a href="#" class="cta-button" onclick="openDemoForm()">Book a Free Demo</a>
+        </header>
+
+        <!-- Free Demo Form Popup -->
+        <div id="demoForm" class="form-popup">
+            <form class="form-container" onsubmit="submitDemoForm(event)">
+                <h2>Book a Free Demo</h2>
+
+                <label for="name"><b>Name</b></label>
+                <input type="text" id="name" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="email" id="email" required>
+
+                <label for="phone"><b>Phone</b></label>
+                <input type="tel" id="phone" required>
+
+                <button type="submit" class="btn">Submit</button>
+                <button type="button" class="btn cancel" onclick="closeDemoForm()">Close</button>
+            </form>
+        </div>
+        <!-- Footer -->
+        <footer>
+            <div class="footer-container">
+
+                <!-- Logo + About -->
+                <div class="footer-logo">
+                    <h2>🚗 SmartPark</h2>
+                    <p>Empowering cities with smart parking systems for better traffic management, improved
+                        convenience,
+                        and higher efficiency.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Our Solutions -->
+                <div class="footer-links">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="#">Parking Management</a></li>
+                        <li><a href="#">Smart City</a></li>
+                        <li><a href="#">Valet App</a></li>
+                        <li><a href="#">Smart Dashboard</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="footer-company">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-contact">
+
+                    <h3>Contact Us</h3>
+                    <form id="contactForm">
+                        <input type="text" id="contactname" placeholder="Your Name" required />
+                        <input type="email" id="contactemail" placeholder="Your Email" required />
+                        <textarea id="contactmessage" rows="3" placeholder="Your Message" required></textarea>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                © 2025 SmartPark. All Rights Reserved.
+            </div>
+
+        </footer>
+
+        <!-- Toast Message -->
+        <div class="toast" id="toastMsg">Message sent successfully!</div>
+        <script src="index.js"></script>
+
+        <script src="https://unpkg.com/lottie-web@5.9.6/build/player/lottie.min.js"></script>
+    </div>
+</body>
+
+</html>

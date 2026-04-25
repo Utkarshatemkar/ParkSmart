@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List Your Parking</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f0f5;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        select,
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .status.full {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status.available {
+            color: green;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            animation: bounce 0.4s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul.slot-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px auto;
+            max-width: 800px;
+        }
+
+        li.slot-item {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-left: 5px solid green;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.canceled {
+            border-left: 5px solid gray;
+            background: #eee;
+        }
+
+        li.completed {
+            border-left: 5px solid red;
+        }
+
+        .status {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 13px;
+            padding: 4px 6px;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            display: inline-block;
+        }
+
+        .status.canceled {
+            background-color: #6c757d;
+        }
+
+        .status.completed {
+            background-color: red;
+        }
+
+        .btn-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .btn-cancel,
+        .btn-complete,
+        .btn-pay {
+            padding: 4px 8px;
+            font-size: 11px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+            margin-top: 4px;
+        }
+
+        .btn-cancel {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-complete {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-pay {
+            background: #ffc107;
+            color: black;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #qrPopup {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #qrPopup img {
+            width: 200px;
+            margin: 15px 0;
+        }
+
+        #qrPopup button {
+            margin-top: 10px;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Reservation Form -->
+    <div class="overlay" id="reservationOverlay">
+        <div class="popup">
+            <h3>Reserve Your Parking</h3>
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="text" id="plate" placeholder="Vehicle Plate Number">
+            <input type="text" id="color" placeholder="Car Color">
+            <input type="text" id="phone" placeholder="Phone Number">
+
+            <select id="parkingType" onchange="updateLocationDropdown()">
+                <option value="">Select Parking Type</option>
+                <option value="Residential">Residential Area</option>
+                <option value="Campus">Campus</option>
+                <option value="Hotel">Hotel</option>
+                <option value="Mall">Mall</option>
+                <option value="Industrial">Industrial</option>
+            </select>
+
+            <select id="locationDropdown" class="hidden"></select>
+
+            <label for="start">Start Time:</label>
+            <input type="datetime-local" id="start">
+
+            <label for="end">End Time:</label>
+            <input type="datetime-local" id="end">
+
+            <button onclick="submitReservation()">Reserve</button>
+        </div>
+    </div>
+
+    <!-- QR Payment Modal -->
+    <div class="overlay hidden" id="qrModal">
+        <div id="qrPopup">
+            <h3>Scan to Pay</h3>
+            <img src="https://www.reliancedigital.in/medias/QRCode.png?context=bWFzdGVyfGltYWdlc3wzOTAzMnxpbWFnZS9wbmd8aW1hZ2VzL2g0ZC9oNTYvOTgzNzEzNzEzMTg2Mi5wbmd8ZDkyYmEwMDkxNjhjOGJlMmQ3MjI4ZTI4NzQ3ZTliN2Q4NmMwYTg1MDc2OGU1ZjExNzdhOWEyM2JlMTViZDM3NQ"
+                alt="UPI QR Code" />
+            <button onclick="confirmPayment()">I have paid</button>
+        </div>
+    </div>
+
+    <h2>Booked Parking Slots</h2>
+    <button class="clear-btn" onclick="clearAllSlots()">Clear All Slots</button>
+    <ul class="slot-list" id="slotList"></ul>
+
+
+    <script>
+        const ratePerHour = 20;
+        const fineRate = 30;
+
+        const locationData = {
+            Residential: ["Baner", "Wakad", "Kothrud", "Hadapsar", "Sinhagad Road", "Kharadi", "Pimpri-Chinchwad", "Viman Nagar"],
+            Campus: ["MIT-WPU", "IIT Bombay", "Symbiosis Pune", "Pune University", "Government College", "Research Avsari College", "Government College of Engineering Avsari KD", "COEP Technological University", "VIT Pune", "DY Patil College of Engineering", "Bharati Vidyapeeth", "AISSMS College"],
+            Hotel: ["Taj Hotel", "The O Hotel", "JW Marriott", "Hyatt Regency", "Marriott Suites", "Conrad Pune", "Radisson Blu", "Westin Pune"],
+            Mall: ["Amanora Mall", "Phoenix Marketcity", "Seasons Mall", "Pavilion Mall", "Nucleus Mall", "SGS Mall", "City One Mall", "Xion Mall"],
+            Industrial: ["Infosys", "TCS", "Wipro", "Tech Mahindra", "Cognizant", "Persistent", "HCL", "Capgemini"]
+        };
+
+        let slots = [], pendingSlotId = null;
+
+        function updateLocationDropdown() {
+            const type = document.getElementById("parkingType").value;
+            const dropdown = document.getElementById("locationDropdown");
+            dropdown.innerHTML = "";
+            if (type && locationData[type]) {
+                dropdown.innerHTML = locationData[type].map(loc => `<option value="${loc}">${loc}</option>`).join('');
+                dropdown.classList.remove("hidden");
+            } else {
+                dropdown.classList.add("hidden");
+            }
+        }
+
+        function submitReservation() {
+            const name = document.getElementById("name").value;
+            const plate = document.getElementById("plate").value;
+            const color = document.getElementById("color").value;
+            const phone = document.getElementById("phone").value;
+            const type = document.getElementById("parkingType").value;
+            const location = document.getElementById("locationDropdown").value;
+            const start = new Date(document.getElementById("start").value);
+            const end = new Date(document.getElementById("end").value);
+
+            if (!name || !plate || !color || !phone || !type || !location || !start || !end || end <= start) {
+                alert("Please enter valid details including correct times.");
+                return;
+            }
+
+            const hours = Math.ceil((end - start) / (1000 * 60 * 60));
+            const bill = hours * ratePerHour;
+
+            const slot = {
+                id: Date.now(),
+                name, plate, color, phone,
+                type, location,
+                start: start.toISOString(),
+                end: end.toISOString(),
+                bill,
+                status: "Reserved",
+                paid: false
+            };
+
+            slots.push(slot);
+            localStorage.setItem("parkingSlots", JSON.stringify(slots));
+            renderSlots();
+            document.getElementById("reservationOverlay").style.display = "none";
+        }
+
+        function cancelSlot(id) {
+            const slot = slots.find(s => s.id === id);
+            if (slot) {
+                slot.status = "Canceled";
+                localStorage.setItem("parkingSlots", JSON.stringify(slots));
+                renderSlots();
+            }
+        }
+
+        function completeSlot(id) {
+            const slot = slots.find(s => s.id === id);
+            const now = new Date();
+            const slotEnd = new Date(slot.end);
+            if (now > slotEnd) {
+                const overstayHours = Math.ceil((now - slotEnd) / (1000 * 60 * 60));
+                slot.bill += overstayHours * fineRate;
+            }
+            slot.status = "Completed";
+            localStorage.setItem("parkingSlots", JSON.stringify(slots));
+            renderSlots();
+        }
+
+        function paySlot(id) {
+            pendingSlotId = id;
+            document.getElementById("qrModal").classList.remove("hidden");
+        }
+
+        function confirmPayment() {
+            const slot = slots.find(s => s.id === pendingSlotId);
+            if (slot) {
+                slot.paid = true;
+                localStorage.setItem("parkingSlots", JSON.stringify(slots));
+                renderSlots();
+                document.getElementById("qrModal").classList.add("hidden");
+                generatePDFReceipt(slot);
+                alert("Thank you! Payment of ₹" + slot.bill + " has been received.");
+            }
+        }
+
+        function generatePDFReceipt(slot) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text("Smart Parking Payment Receipt", 20, 20);
+            doc.text(`Name: ${slot.name}`, 20, 30);
+            doc.text(`Plate: ${slot.plate}`, 20, 40);
+            doc.text(`Color: ${slot.color}`, 20, 50);
+            doc.text(`Phone: ${slot.phone}`, 20, 60);
+            doc.text(`Location: ${slot.location}`, 20, 70);
+            doc.text(`Parking Type: ${slot.type}`, 20, 80);
+            doc.text(`Start: ${new Date(slot.start).toLocaleString()}`, 20, 90);
+            doc.text(`End: ${new Date(slot.end).toLocaleString()}`, 20, 100);
+            doc.text(`Amount Paid: ₹${slot.bill}`, 20, 110);
+            doc.save("receipt.pdf");
+        }
+
+        function renderSlots() {
+            const list = document.getElementById("slotList");
+            list.innerHTML = "";
+            slots.forEach(slot => {
+                const li = document.createElement("li");
+                li.className = "slot-item";
+                if (slot.status === "Canceled") li.classList.add("canceled");
+                if (slot.status === "Completed") li.classList.add("completed");
+                const statusClass = slot.status.toLowerCase();
+                li.innerHTML = `
+          <div>
+            <div class="status ${statusClass}">${slot.status}${slot.paid ? " (Paid)" : ""}</div>
+            <strong>${slot.name}</strong> | ${slot.plate} (${slot.color})<br>
+            <em>${slot.location} - ${slot.type}</em><br>
+            ${new Date(slot.start).toLocaleString()} to ${new Date(slot.end).toLocaleString()}<br>
+            ₹${slot.bill}
+          </div>
+          <div class="btn-actions">
+            ${slot.status === "Reserved" ? `<button class="btn-cancel" onclick="cancelSlot(${slot.id})">Cancel</button><button class="btn-complete" onclick="completeSlot(${slot.id})">Mark Complete</button>` : ""}
+            ${slot.status === "Completed" && !slot.paid ? `<button class="btn-pay" onclick="paySlot(${slot.id})">Pay Now</button>` : ""}
+          </div>
+        `;
+                list.appendChild(li);
+            });
+        }
+
+        function clearAllSlots() {
+            slots = [];
+            localStorage.removeItem("parkingSlots");
+            renderSlots();
+            document.getElementById("reservationOverlay").style.display = "flex";
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem("parkingSlots");
+            slots = saved ? JSON.parse(saved) : [];
+            renderSlots();
+        };
+
+    </script>
+</body>
+
+</html>

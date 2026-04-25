@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Parking System</title>
+
+
+
+    <style>
+        * ✅ NAVIGATION BAR -- Reset and base */ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #101828;
+            color: white;
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: #00d4ff;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links li a:hover {
+            color: #00d4ff;
+        }
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .solutions {
+            background-image: url('image/smart\ city.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6em 2em;
+            text-align: center;
+            position: relative;
+        }
+
+        .solutions h2 {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+        }
+
+        .solutions .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2em;
+            border-radius: 10px;
+        }
+
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            border-radius: 10px;
+            padding: 1em;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .card button {
+            margin-top: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.6em 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Details Sections */
+        .details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Horizontally centers all content */
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 2em;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .details img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin-bottom: 1.5em;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .active-card {
+            box-shadow: 0 0 15px 5px rgba(0, 123, 255, 0.6);
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+
+        .details h2 {
+            font-size: 3em;
+            text-align: center;
+            color: #2c5364;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+
+        .details h3 {
+            font-size: 1.6em;
+            color: #2c5364;
+            margin-top: 1em;
+        }
+
+        .details p {
+            font-size: 1.1em;
+            max-width: 800px;
+            line-height: 1.6;
+            margin: 0.5em 0;
+        }
+
+        .details button {
+            margin-top: 1.5em;
+            padding: 0.75em 1.5em;
+            font-size: 1em;
+            background-color: #2c5364;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .details button:hover {
+            background-color: #1a374d;
+        }
+
+        .details-content {
+            max-width: 800px;
+            margin-top: 1em;
+        }
+
+        .details-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .details-inner img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1.5em;
+        }
+
+        .details-inner ul {
+            list-style: none;
+            padding: 0;
+            margin: 1em 0;
+        }
+
+        .details-inner li {
+            margin: 0.5em 0;
+            text-align: left;
+        }
+
+
+
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.6em 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Custom content styles */
+        .smartcity-content h3,
+        .dashboard-content h3,
+        .parking-content h3,
+        .data-content h3 {
+            color: #2c3e50;
+            margin-top: 1em;
+            font-size: 1.2em;
+        }
+
+        .smartcity-content ul,
+        .parking-content ul,
+        .data-content ul {
+            list-style: none;
+            padding-left: 1.2em;
+        }
+
+        .smartcity-content ul li::before {
+            content: "✅";
+            color: green;
+            margin-right: 0.5em;
+        }
+
+        .parking-content ul li::before {
+            content: "🅿️";
+            color: #007bff;
+            margin-right: 0.5em;
+        }
+
+        .data-content ul li::before {
+            content: "📊";
+            color: #28a745;
+            margin-right: 0.5em;
+        }
+
+        /*footer*/
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        footer {
+            background: linear-gradient(to right, #0d1b2a, #1b263b);
+            color: #f0f0f0;
+            padding: 60px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            flex: 1 1 250px;
+        }
+
+        .footer-logo h2 {
+            font-size: 26px;
+            color: #ffffff;
+        }
+
+        .footer-logo p {
+            margin: 15px 0;
+            color: #cccccc;
+        }
+
+        .footer-links,
+        .footer-company {
+            flex: 1 1 150px;
+        }
+
+        .footer-links h3,
+        .footer-company h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .footer-links ul,
+        .footer-company ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li,
+        .footer-company ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links ul li a,
+        .footer-company ul li a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover,
+        .footer-company ul li a:hover {
+            color: #1e90ff;
+        }
+
+        .footer-contact {
+            flex: 1 1 300px;
+        }
+
+        .footer-contact form input,
+        .footer-contact form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .footer-contact button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .footer-contact button:hover {
+            background-color: #00b4d8;
+        }
+
+        .social-icons {
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #cccccc;
+            margin-right: 15px;
+            font-size: 18px;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #1e90ff;
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #aaaaaa;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e90ff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ✅ NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="" alt="SmartPark Logo" width="200">
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="park.html">Home</a></li>
+            <li><a href="solution.html">Our Solution</a></li>
+            <li><a href="listyourparking.html">List Your Parking</a></li>
+            <li><a href="#">Free Demo</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="solutions">
+        <div class="overlay">
+            <h2>Our Solutions</h2>
+            <div class="cards">
+
+                <div class="card">
+                    <img src="https://img.freepik.com/premium-photo/concept-smart-city_756748-49574.jpg"
+                        alt="Smart City image">
+                    <h3>Smart City</h3>
+                    <p>Integrate smart parking into a city's ecosystem.</p>
+                    <button onclick="showDetail('smartCity')">View More</button>
+                </div>
+                <div class="card">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.lGrGqoQKCi1TRJQQuC3KOgHaD1&pid=Api&P=0&h=180"
+                        alt="Smart dashboard image">
+                    <h3>Smart Dashboard</h3>
+                    <p>Real-time dashboard for data insights and analytics.</p>
+                    <button onclick="showDetail('smartDashboard')">View More</button>
+                </div>
+                <div class="card">
+                    <img src="https://shardaassociates.in/wp-content/uploads/2022/09/Car-Parking-Management-System-1-768x490.jpg"
+                        alt="Parking management image">
+                    <h3>Parking Management</h3>
+                    <p>Manage parking slots, bookings and reports.</p>
+                    <button onclick="showDetail('parkingManagement')">View More</button>
+                </div>
+                <div class="card">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.k6HVYWooGVbKm4j_f_ujhAHaD_&pid=Api&P=0&h=180"
+                        alt="Parking Data image">
+                    <h3>Parking Data</h3>
+                    <p>Comprehensive parking data collection and analytics.</p>
+                    <button onclick="showDetail('parkingData')">View More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="details" id="smartCity">
+        <h2>Smart City Integration</h2>
+        <img src="image/smart city.jpg" alt="Smart City Details">
+        <div class="details-inner">
+            <h3>🚧 Urban Challenges Addressed</h3>
+            <p>Modern cities face congestion, limited parking, fuel wastage, and frustrated commuters.
+                <br>Searching for parking consumes valuable time and contributes to traffic buildup and pollution.
+            </p>
+
+
+            <h3>🚗 Our Smart Solution</h3>
+            <p>We deploy IoT-based parking sensors and cloud-connected systems that detect real-time space availability
+                and
+                instantly guide drivers via mobile apps, digital signboards, or navigation systems.</p>
+
+
+            <h3>🏙️ City-Wide Integration</h3>
+            <p>The system integrates seamlessly with city infrastructure—traffic lights, navigation apps, and emergency
+                routes—to ensure better flow, accessibility, and adaptability to smart city goals.</p>
+
+            <h3>🌍 Benefits of Integration</h3>
+            <ul>
+                <li>🔹 Reduced traffic congestion</li>
+                <li>🔹 Time and fuel savings for citizens</li>
+                <li>🔹 Improved air quality and lower carbon emissions</li>
+                <li>🔹 Boost in resident satisfaction and public safety</li>
+                <li>🔹 Scalability for future urban mobility innovations</li>
+            </ul>
+        </div>
+        <button onclick="hideDetail()">Close</button>
+    </section>
+
+    <!-- Smart Dashboard -->
+    <section class="details" id="smartDashboard">
+        <h2>Smart Dashboard</h2>
+        <img src="image/smart dashborad.png" alt="Smart Dashboard">
+        <div class="details-inner">
+            <h3>📊 Enhanced Data Visualization</h3>
+            <p>Dynamic graphs and interactive heatmaps provide real-time insights into occupancy, usage trends, and
+                revenue. Users can zoom into specific locations or timeframes for granular analysis.</p>
+
+            <h3>🔔 Real-Time Alerts & Notifications</h3>
+            <p>Receive instant alerts for critical events like over-occupancy, equipment failure, or security issues.
+                Customize alerts based on roles—admin, operator, or city manager.</p>
+
+            <h3>📄 Custom Reports & Exports</h3>
+            <p>Generate tailored reports filtered by zone, time, or performance metrics. Set schedules for
+                auto-exporting reports to your inbox or preferred cloud storage.</p>
+
+            <h3>📍 Geo-Mapping & Live Monitoring</h3>
+            <p>Integrated maps show live parking status, zone-wise occupancy, and smart device health. Hover, click, or
+                drill down for more in-depth data visualization.</p>
+
+            <h3>🛠️ User Roles & Access Control</h3>
+            <p>Role-based dashboards ensure only relevant data is shown to each user group, keeping the interface clean,
+                fast, and highly secure.</p>
+        </div>
+        <button onclick="hideDetail()">Close</button>
+    </section>
+
+    <!-- Parking Management -->
+    <section class="details" id="parkingManagement">
+        <h2>Parking Management</h2>
+        <img src="image/Parking management.png" alt="Parking Management">
+        <div class="details-inner">
+            <h3>🚧 The Real-World Problem</h3>
+            <p>Manual parking systems lead to overbookings, confusion, lost revenue, and enforcement challenges. Drivers
+                struggle to find available spots and admins lack visibility into operations.</p>
+
+            <h3>💡 Our Smart Parking Solution</h3>
+            <ul>
+                <li>📲 <strong>Digital Booking System:</strong> Users can reserve parking spots online in advance,
+                    reducing on-site congestion and improving user satisfaction.</li>
+                <li>💳 <strong>Integrated Payments:</strong> Offers multiple secure payment gateways for hourly, daily,
+                    or monthly parking—fully contactless.</li>
+                <li>📍 <strong>Smart Slot Allocation:</strong> An intelligent engine allocates available slots based on
+                    proximity, availability, and user type (visitor, employee, VIP).</li>
+                <li>🚨 <strong>Violation Detection:</strong> Real-time tracking to identify unauthorized usage,
+                    overstays, and enforce parking rules automatically.</li>
+            </ul>
+
+            <h3>📊 Admin Features</h3>
+            <p>Centralized dashboard for live monitoring, revenue tracking, and issue alerts. Export reports and
+                optimize staff allocation based on real data.</p>
+        </div>
+        <button onclick="hideDetail()">Close</button>
+    </section>
+
+    <!-- Parking Data -->
+    <section class="details" id="parkingData">
+        <h2>Parking Data Analytics</h2>
+        <img src="image/data anlytics.jpg" alt="Parking Data">
+        <div class="details-inner">
+            <h3>📉 Challenges Without Data</h3>
+            <p>Without accurate data, cities and operators can't identify usage patterns, optimize space, or make
+                informed planning decisions—leading to underutilized resources and poor user experience.</p>
+
+            <h3>📊 Our Data-Driven Approach</h3>
+            <ul>
+                <li>📈 <strong>Usage Metrics:</strong> Track occupancy trends, peak hours, and usage frequency to
+                    identify high-traffic zones and idle areas.</li>
+                <li>💰 <strong>Revenue Analytics:</strong> Monitor earnings by zone, time, and customer segment—helping
+                    to optimize pricing and boost ROI.</li>
+                <li>🌐 <strong>Live Heatmaps:</strong> Visual representations of active spaces and zones, aiding
+                    real-time space planning and incident detection.</li>
+                <li>📆 <strong>Forecasting Tools:</strong> Predict demand based on historical data and seasonal
+                    variations to support city-wide planning and resource deployment.</li>
+            </ul>
+
+            <h3>🎯 Outcomes That Matter</h3>
+            <p>From reducing idle capacity to enabling future-focused urban planning, Parking Data Analytics transforms
+                raw data into actionable insights that power smarter decisions.</p>
+        </div>
+        <button onclick="hideDetail()">Close</button>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+
+            <!-- Logo + About -->
+            <div class="footer-logo">
+                <h2>🚗 SmartPark</h2>
+                <p>Empowering cities with smart parking systems for better traffic management, improved
+                    convenience,
+                    and higher efficiency.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Our Solutions -->
+            <div class="footer-links">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#">Parking Management</a></li>
+                    <li><a href="#">Smart City</a></li>
+                    <li><a href="#">Valet App</a></li>
+                    <li><a href="#">Smart Dashboard</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="footer-company">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <form id="contactForm">
+                    <input type="text" id="name" placeholder="Your Name" required />
+                    <input type="email" id="email" placeholder="Your Email" required />
+                    <textarea id="message" rows="3" placeholder="Your Message" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 SmartPark. All Rights Reserved.
+        </div>
+
+    </footer>
+
+
+    <script>
+        /*nav bar*/
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('show');
+
+        }// Wait for the DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            const detailSections = document.querySelectorAll(".details");
+
+            // Hide all detail sections by default
+            detailSections.forEach(section => {
+                section.style.display = "none";
+                section.style.opacity = 0;
+                section.style.transition = "opacity 0.5s ease";
+            });
+
+            window.showDetail = function (sectionId) {
+                detailSections.forEach(section => {
+                    section.style.display = "none";
+                    section.style.opacity = 0;
+                });
+
+                const section = document.getElementById(sectionId);
+                section.style.display = "flex";
+
+                // Add smooth fade-in
+                setTimeout(() => {
+                    section.style.opacity = 1;
+                }, 50);
+
+                // Scroll into view
+                section.scrollIntoView({ behavior: "smooth" });
+
+                // Update page title
+                document.title = `${section.querySelector("h2").textContent} | Smart Parking`;
+
+                // Highlight clicked card briefly
+                const cards = document.querySelectorAll(".card");
+                cards.forEach(card => card.classList.remove("active-card"));
+
+                setTimeout(() => {
+                    const matchingCard = Array.from(cards).find(card =>
+                        card.querySelector("button").getAttribute("onclick").includes(sectionId)
+                    );
+                    if (matchingCard) {
+                        matchingCard.classList.add("active-card");
+                        setTimeout(() => matchingCard.classList.remove("active-card"), 1000);
+                    }
+                }, 200);
+            };
+
+            window.hideDetail = function () {
+                detailSections.forEach(section => {
+                    section.style.opacity = 0;
+                    setTimeout(() => {
+                        section.style.display = "none";
+                    }, 300);
+                });
+
+                // Reset page title
+                document.title = "Smart Parking System";
+
+                // Scroll back to top
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            };
+
+            // Escape key closes the section
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") hideDetail();
+            });
+        });
+        //footer
+        const form = document.getElementById('contactForm');
+        const toast = document.getElementById('toastMsg');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show toast
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+
+            // Clear form fields
+            form.reset();
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Parking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #101828;
+            color: white;
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: #00d4ff;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links li a:hover {
+            color: #00d4ff;
+        }
+
+        /* Responsive menu */
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #101828;
+                position: absolute;
+                top: 64px;
+                right: 30px;
+                width: 200px;
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Hero section */
+        .hero-section {
+            padding: 80px 32px;
+            text-align: center;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+        }
+
+        .about-content h3 {
+            margin-bottom: 10px;
+            /* Add space below the h3 */
+            font-size: 1.3rem;
+            color: #555;
+        }
+
+        .about-content h2 {
+            margin-top: 15px;
+            /* Add space above h2 if needed */
+            font-size: 2rem;
+            color: #0072ff;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #0072ff;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #e0e0e0;
+        }
+
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .payment-section {
+            margin-top: 1rem;
+        }
+
+        .completed {
+            background-color: #ffe6e6;
+        }
+
+        .cancelled {
+            background-color: #e6e6e6;
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .receipt {
+            margin-top: 0.5rem;
+            background: #e0ffe0;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .filter-section {
+            margin-bottom: 1rem;
+        }
+
+        /*footer*/
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        footer {
+            background: linear-gradient(to right, #0d1b2a, #1b263b);
+            color: #f0f0f0;
+            padding: 60px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            flex: 1 1 250px;
+        }
+
+        .footer-logo h2 {
+            font-size: 26px;
+            color: #ffffff;
+        }
+
+        .footer-logo p {
+            margin: 15px 0;
+            color: #cccccc;
+        }
+
+        .footer-links,
+        .footer-company {
+            flex: 1 1 150px;
+        }
+
+        .footer-links h3,
+        .footer-company h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .footer-links ul,
+        .footer-company ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li,
+        .footer-company ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links ul li a,
+        .footer-company ul li a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover,
+        .footer-company ul li a:hover {
+            color: #1e90ff;
+        }
+
+        .footer-contact {
+            flex: 1 1 300px;
+        }
+
+        .footer-contact form input,
+        .footer-contact form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .footer-contact button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .footer-contact button:hover {
+            background-color: #00b4d8;
+        }
+
+        .social-icons {
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #cccccc;
+            margin-right: 15px;
+            font-size: 18px;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #1e90ff;
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #aaaaaa;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e90ff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ✅ NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="" alt="SmartPark Logo" width="200">
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="park.html">Home</a></li>
+            <li><a href="solution.html">Our Solution</a></li>
+            <li><a href="listyourparking.html">List Your Parking</a></li>
+            <li><a href="#">Free Demo</a></li>
+        </ul>
+    </nav>
+    <header>Parking Management</header>
+    <div class="container">
+        <h2>Reservation Form</h2>
+        <form id="reservationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required />
+
+            <label for="plate">Plate Number:</label>
+            <input type="text" id="plate" required />
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" required />
+
+            <label for="location">Location:</label>
+            <select id="location" required></select>
+
+            <label for="sublocation">Sublocation:</label>
+            <select id="sublocation" required></select>
+
+            <label for="startTime">Parking Start Time:</label>
+            <input type="datetime-local" id="startTime" required />
+
+            <label for="endTime">Parking End Time:</label>
+            <input type="datetime-local" id="endTime" required />
+
+            <button type="submit">Reserve</button>
+        </form>
+
+        <h2>Reservations</h2>
+
+        <div class="filter-section">
+            <label for="filterStatus">Filter by Status: </label>
+            <select id="filterStatus">
+                <option value="all">All</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Plate</th>
+                    <th>Contact</th>
+                    <th>Location</th>
+                    <th>Sublocation</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Bill</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="reservationList"></tbody>
+        </table>
+
+        <div class="stats">
+            <span>Total Reserved: <span id="reservedCount">0</span></span>
+            <span>Total Available: <span id="availableCount">16</span></span>
+        </div>
+    </div>
+
+    <script>
+        const reservationForm = document.getElementById("reservationForm");
+        const reservationList = document.getElementById("reservationList");
+        const reservedCount = document.getElementById("reservedCount");
+        const availableCount = document.getElementById("availableCount");
+        const locationSelect = document.getElementById("location");
+        const sublocationSelect = document.getElementById("sublocation");
+        const filterStatus = document.getElementById("filterStatus");
+
+        const sublocationsMap = {
+            "Residential Area": ["Sai Nagar", "Green Park", "Shivaji Colony", "Ramdev Wadi"],
+            "Campus Area": ["Government College", "Research Avsari College", "MIT", "COEP Tech"],
+            "Industrial Area": ["Tata Motors", "Bajaj Auto", "Thermax", "SKF Bearings"],
+            "Mall": ["Phoenix Mall", "Seasons Mall", "Amanora", "Pavilion Mall"]
+        };
+
+        let reservations = [];
+        const ratePerHour = 50;
+        const finePerHour = 30;
+
+        const slotsPerSublocation = 2;
+
+        function totalSlotsPerLocation() {
+            const result = {};
+            for (const loc in sublocationsMap) {
+                result[loc] = sublocationsMap[loc].length * slotsPerSublocation;
+            }
+            return result;
+        }
+
+        function updateStats() {
+            const totalSlots = Object.values(totalSlotsPerLocation()).reduce((a, b) => a + b, 0);
+            const activeReservations = reservations.filter(r => r.status !== 'Cancelled');
+            const totalReserved = activeReservations.length;
+            reservedCount.textContent = totalReserved;
+            availableCount.textContent = totalSlots - totalReserved;
+        }
+
+        function updateLocationOptions() {
+            locationSelect.innerHTML = '<option value="">Select Location</option>';
+            for (const loc in sublocationsMap) {
+                const total = sublocationsMap[loc].length * slotsPerSublocation;
+                const reserved = reservations.filter(r => r.location === loc && r.status !== 'Cancelled').length;
+                const available = total - reserved;
+                const option = document.createElement("option");
+                option.value = loc;
+                option.textContent = `${loc} (Reserved: ${reserved} / Available: ${available})`;
+                if (available <= 0) option.disabled = true;
+                locationSelect.appendChild(option);
+            }
+        }
+
+        locationSelect.addEventListener("change", () => {
+            const selectedLocation = locationSelect.value;
+            sublocationSelect.innerHTML = "";
+            if (selectedLocation && sublocationsMap[selectedLocation]) {
+                sublocationsMap[selectedLocation].forEach(sub => {
+                    const reserved = reservations.filter(r => r.sublocation === sub && r.status !== 'Cancelled').length;
+                    const available = slotsPerSublocation - reserved;
+                    const option = document.createElement("option");
+                    option.value = sub;
+                    option.textContent = `${sub} (Reserved: ${reserved} / Available: ${available})`;
+                    if (available <= 0) option.disabled = true;
+                    sublocationSelect.appendChild(option);
+                });
+            }
+        });
+
+        reservationForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const location = locationSelect.value;
+            const sublocation = sublocationSelect.value;
+            const reservedInSub = reservations.filter(r => r.sublocation === sublocation && r.status !== 'Cancelled').length;
+
+            if (reservedInSub >= slotsPerSublocation) {
+                alert(`❌ No slots available in ${sublocation}.`);
+                return;
+            }
+
+            const reservation = {
+                name: document.getElementById("name").value,
+                plate: document.getElementById("plate").value,
+                contact: document.getElementById("contact").value,
+                location,
+                sublocation,
+                startTime: document.getElementById("startTime").value,
+                endTime: document.getElementById("endTime").value,
+                status: 'Active'
+            };
+
+            reservations.push(reservation);
+            displayReservations();
+            updateStats();
+            updateLocationOptions();
+            reservationForm.reset();
+        });
+
+        function calculateBill(startTime, endTime) {
+            const start = new Date(startTime);
+            const end = new Date(endTime);
+            const now = new Date();
+            const reservedHours = Math.ceil((end - start) / (1000 * 60 * 60));
+            const baseCost = reservedHours * ratePerHour;
+
+            let fine = 0;
+            if (now > end) {
+                const overdueHours = Math.ceil((now - end) / (1000 * 60 * 60));
+                fine = overdueHours * finePerHour;
+            }
+
+            return baseCost + fine;
+        }
+
+        function displayReservations() {
+            const selectedFilter = filterStatus.value;
+            reservationList.innerHTML = "";
+            reservations.forEach((res, index) => {
+                const isCompleted = new Date(res.endTime) < new Date();
+                const effectiveStatus = res.status === 'Active' && isCompleted ? 'Completed' : res.status;
+                if (selectedFilter !== 'all' && selectedFilter !== effectiveStatus) return;
+
+                const bill = calculateBill(res.startTime, res.endTime);
+                const row = document.createElement("tr");
+                row.className = res.status === 'Cancelled' ? 'cancelled' : isCompleted ? 'completed' : '';
+                row.innerHTML = `
+          <td>${res.name}</td>
+          <td>${res.plate}</td>
+          <td>${res.contact}</td>
+          <td>${res.location}</td>
+          <td>${res.sublocation}</td>
+          <td>${new Date(res.startTime).toLocaleString()}</td>
+          <td>${new Date(res.endTime).toLocaleString()}</td>
+          <td>₹${bill}</td>
+          <td>${effectiveStatus}</td>
+          <td>
+            ${res.status === 'Active' ? `<button onclick="generateQRCode(${bill}, ${index})">Pay</button><div id="qr-code-${index}" class="payment-section"></div>` : ''}
+          </td>
+          <td>
+            ${res.status === 'Active' ? `<button onclick="cancelReservation(${index})">Cancel</button>` : ''}
+          </td>
+        `;
+                reservationList.appendChild(row);
+            });
+        }
+
+        function generateQRCode(amount, index) {
+            const qrCodeDiv = document.getElementById(`qr-code-${index}`);
+            qrCodeDiv.innerHTML = "";
+            const qrImage = document.createElement("img");
+            const upiId = "temkarutkarsha@oksbi";
+            const qrData = `upi://pay?pa=${upiId}&pn=SmartParking&am=${amount}&cu=INR`;
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrData)}`;
+            qrImage.alt = "QR Code";
+            qrImage.className = "qr-code";
+            qrCodeDiv.appendChild(qrImage);
+
+            const receipt = document.createElement("div");
+            receipt.className = "receipt";
+            receipt.innerHTML = `<strong>Receipt:</strong> ₹${amount} to ${upiId}`;
+            qrCodeDiv.appendChild(receipt);
+        }
+
+        function cancelReservation(index) {
+            reservations[index].status = 'Cancelled';
+            displayReservations();
+            updateStats();
+            updateLocationOptions();
+        }
+
+        filterStatus.addEventListener("change", displayReservations);
+
+        updateStats();
+        updateLocationOptions();
+        /*nav bar*/
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('show');
+
+        }
+        //footer
+        const form = document.getElementById('contactForm');
+        const toast = document.getElementById('toastMsg');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show toast
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+
+            // Clear form fields
+            form.reset();
+        });
+
+    </script>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+
+            <!-- Logo + About -->
+            <div class="footer-logo">
+                <h2>🚗 SmartPark</h2>
+                <p>Empowering cities with smart parking systems for better traffic management, improved
+                    convenience,
+                    and higher efficiency.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Our Solutions -->
+            <div class="footer-links">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#">Parking Management</a></li>
+                    <li><a href="#">Smart City</a></li>
+                    <li><a href="#">Valet App</a></li>
+                    <li><a href="#">Smart Dashboard</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="footer-company">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <form id="contactForm">
+                    <input type="text" id="name" placeholder="Your Name" required />
+                    <input type="email" id="email" placeholder="Your Email" required />
+                    <textarea id="message" rows="3" placeholder="Your Message" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 SmartPark. All Rights Reserved.
+        </div>
+
+    </footer>
+
+    <!-- Toast Message -->
+    <div class="toast" id="toastMsg">Message sent successfully!</div>
+    <script src="park.js"></script>
+    <script src="https://unpkg.com/lottie-web@5.9.6/build/player/lottie.min.js"></script>
+    </div>
+</body>
+
+</html>
